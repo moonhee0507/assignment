@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      text-align: center;
+    }
+
+    div {
+      width: 300px;
+      height: 300px;
+      margin: 50px auto;
+      border: 5px solid gray;
+      background-color: lightgrey;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .yellow {
+      background-color: yellow;
+    }
+
+    .blue {
+      background-color: blue;
+    }
+
+  </style>
+</head>
+<body>
+  <div></div>
+  <button class="btn-red">빨강</button>
+  <button class="btn-yellow">노랑</button>
+  <button class="btn-blue">파랑</button>
+
+  <script>
+    const myColor = document.querySelector("div");
+    const myBtnRed = document.querySelector(".btn-red");
+    const myBtnYellow = document.querySelector(".btn-yellow");
+    const myBtnBlue = document.querySelector(".btn-blue");
+
+    // myBtnRed.addEventListener('click', function(){
+    //   myColor.classList.add('red');
+    //   myColor.classList.remove('blue', 'yellow');
+    // })
+
+    // myBtnYellow.addEventListener('click', function(){
+    //   myColor.classList.add('yellow');
+    //   myColor.classList.remove('red', 'blue');
+    // })
+
+    // myBtnBlue.addEventListener('click', function(){
+    //   myColor.classList.add('blue');
+    //   myColor.classList.remove('red', 'yellow');
+    // })
+
+    const myBtnArr = [myBtnRed, myBtnYellow, myBtnBlue];
+
+    myBtnArr.forEach((element) => {
+        element.addEventListener('click', () => {
+            myColor.classList.remove('red', 'yellow', 'blue');
+            if (element.className === 'btn-red') {
+                myColor.classList.add('red')
+            } else if (element.className === 'btn-yellow') {
+                myColor.classList.add('yellow')
+            } else {
+                myColor.classList.add('blue')
+            }
+        })
+    })
+  </script>
+</body>
+</html>
