@@ -9,7 +9,7 @@
 <body>
     <h1>todolist</h1>
     <script>
-        class Todo {
+  class Todo {
 
             constructor(item, finished) {
                 this.item = item;
@@ -17,33 +17,32 @@
             }
 
             changeState() {
-                this.finished = !this.finished;
+                this.finished = !this.finished
             }
         }
 
         class TodoManager {
-
             constructor() {
                 this.todoList = [];
             }
 
             addItem(item, finished = false) {
                 // const todo = new Todo(item, finished);
-                this.todoList.push(new Todo(item, finished));
+                this.todoList.push(new Todo(item, finished))
             }
 
             getItems() {
                 return this.todoList;
             }
 
-            get LeftTodoCount() {
-                this.todoList.reduce((total, current) => {
-                    if(current.finished === false) {
+            getLeftTodoCount() {
+                return this.todoList.reduce((total, current) => {
+                    if (current.finished === false) {
                         return ++total;
                     } else {
                         return total;
                     }
-                    }, 0
+                }, 0
                 );
             }
         }
