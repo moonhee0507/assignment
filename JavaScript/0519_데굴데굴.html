@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>데굴데굴</title>
     <style>
         body {
-            margin: 100px;
+            margin-top: 300px;
         }
 
-        .target {
-            width: 50px;
-            height: 50px;
-            background-color: pink;
-            transition: 0.3s;
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            border: 3px solid lightgoldenrodyellow;
+            margin: 0 auto;
         }
+
     </style>
 </head>
-
 <body>
-    <div class="target"></div>
+    <div>데굴데굴</div>
     <script>
-        const target = document.querySelector('.target');
+        const obj = document.querySelector('div');
+
         let pos = 0;
 
         document.addEventListener('keydown', move);
 
-
         function move(event) {
             const keyName = event.key;
-            if (keyName === 'ArrowRight') {
+
+            if(keyName === 'ArrowRight') {
                 pos += 5;
-                target.style.transform = `translateX(${pos}px)`;
+                obj.style.transform = `translateX(${pos}px)`
             }
-            if (keyName === 'ArrowLeft') {
+            if(keyName === 'ArrowLeft') {
                 pos -= 5;
-                target.style.transform = `translateX(${pos}px)`;
+                obj.style.transform = `translateX(${pos}px)`
             }
         }
+
+
     </script>
 </body>
-
 </html>
