@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>데굴데굴</title>
+    <style>
+        body {
+            margin-top: 300px;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            border: 3px solid lightgoldenrodyellow;
+            margin: 0 auto;
+        }
+        /* 오른쪽으로 가는 애니메이션 */
+        /* 왼쪽으로 가는 애니메이션 */
+
+    </style>
+</head>
+<body>
+    <div>데굴데굴</div>
+    <script>
+        const obj = document.querySelector('.div');
+        let pos = 0;
+
+        document.addEventListener('keydown', move);
+
+        function move(event) {
+            const keyName = event.key;
+
+            if(keyName === 'ArrowRight') {
+                pos += 5;
+                obj.style.transform = `translateX(${pos}px)`
+            }
+            if(keyName === 'ArrowLeft') {
+                obj -= 5;
+                obj.style.transform = `translateX(${pos}px)`
+            }
+        }
+
+
+    </script>
+</body>
+</html>
