@@ -37,85 +37,85 @@
         // 3. (나아가기) 개별 메모 삭제하기
         // 4. (나아가기) 메모에 날짜와 시간, 요일 함께 삽입하기
 
-        // 로컬스토리지를 이용합니다.
-
-        // setItem(key, value) – 키-값 쌍 저장
-        // getItem(key) – 키에 해당하는 값 호출
-        // removeItem(key) – 해당 값 삭제
-        // clear() – 모든 데이터 삭제
-        // key(index) – 인덱스(index)에 해당하는 키 호출
-        // length – 저장된 항목의 개수
-
-        // memo = [];
-        // memo.push('메모1');
-        // memo.push('메모2');
-
-        // localStorage.setItem('메모', memo);
-
-        // console.log(localStorage.getItem('메모'));
-        // console.log(localStorage.getItem('메모').split(','));
-
-
-        // localStorage.setItem('one', '하나');
-        // localStorage.setItem('two', '둘');
-        // console.log(localStorage.getItem('one'));
-        // console.log(localStorage.getItem('two'));
-
         const inputBox = document.getElementById('inputField'); 
         const addToDo = document.getElementById('addToDo'); 
         const toDoList = document.getElementById('toDoList');
         const deleteAll = document.getElementById('deleteAll');
-        const save = document.getElementById('save');
 
         let toDos = [];
 
-        // 버튼에 클릭 이벤트가 발생하면, <li>태그 만들기
-        addToDo.addEventListener('click', function() {
-            let list = document.createElement('li');
+            addToDo.addEventListener('click', function() {
+                // 버튼에 클릭 이벤트가 발생하면, <li>태그 만들기
+                let list = document.createElement('li');
 
-            // 입력창에 내용이 없으면 alert를 띄우고
-            if (!inputBox.value) {
-                alert('내용을 입력해주세요😎');
-            } else { 
-                // 날짜, 시간, 요일 삽입
-                const dt = new Date();
-                const arrDayStr = ['일','월','화','수','목','금','토'];
-                const str = (dt.getMonth()+1) + '월 ' + dt.getDate() + '일('+ arrDayStr[dt.getDay()] + ') ' + dt.getHours() + '시 ' + dt.getMinutes() + '분';
+                // 입력창에 내용이 없으면 alert를 띄우고
+                if (!inputBox.value) {
+                    alert('내용을 입력해주세요😎');
+                } else { 
+                    // 날짜, 시간, 요일 삽입
+                    const date = new Date();
+                    const arrayDay = ['일','월','화','수','목','금','토'];
+                    const stringDate = (date.getMonth()+1) + '월 ' + date.getDate() + '일('+ arrayDay[date.getDay()] + ') ' + date.getHours() + '시 ' + date.getMinutes() + '분';
 
-                // list의 innerText는 inputBox의 value
-                list.innerText = inputBox.value + str;
+                    // list의 innerText는 inputBox의 value
+                    list.innerText = inputBox.value + stringDate;
 
-                // 리스트업에 자식으로 붙이기
+                    // 리스트업의 자식으로 붙이기
+                    toDoList.appendChild(list);
+
+                    // 입력창 비우기
+                    inputBox.value = "";
+                }
+
+                // list를 클릭하면 줄 긋기
+                list.addEventListener('click', function() {
+                    list.style.textDecoration = "line-through";
+                })
+
+                // list를 더블클릭하면 리스트업에서 지우기
+                list.addEventListener('dblclick', function() {
+                    toDoList.removeChild(list);
+                    
+                })
+
+                // toDos에 리스트 push(toDoList.textContent로 하면 누적적으로 들어감)
+                toDos.push(list.innerText);
+                // push를 반복문으로 해서 넣으면?
+
+                // toDoList 내부의 값을 저장
+                localStorage.setItem('memo', toDos);
+            })
+
+        // TODO: 새로고침 화면에서 저장된 내용 보여주기
+        const key = localStorage.getItem('memo')
+        // 첫번째 li에는 첫번째 toDos를, ...
+        if (toDoList !== null) {
+
+            for (let i = 0; i < toDos.length; i++) {
+                let list = document.createElement('li');
                 toDoList.appendChild(list);
 
-                // 입력창 비우기
-                inputBox.value = "";
+                toDoList.childNodes[i] = toDos[i];
             }
+        }
 
-            // 만들어진 list를 클릭하면 줄 긋기
-            list.addEventListener('click', function() {
-                list.style.textDecoration = "line-through";
-            })
-
-            // list에 더블클릭하면 리스트업에서 지우기
-            list.addEventListener('dblclick', function() {
-                toDoList.removeChild(list);
-            })
-
-        })
-
+        // 전체삭제 버튼 이벤트
         deleteAll.addEventListener('click', function() {
+            // i) li를 querySelectorAll로 잡는 방식
             const createdList = document.querySelectorAll('li');
             createdList.forEach(item => {
                 item.remove();
             });
+
+            // ii) li를 getElementsByTagName로 잡는 방식
+            // const createdList = document.getElementsByTagName('li');
+            // for (let i = createdList.length - 1; i >= 0; --i) {
+            //     createdList[i].remove();
+            // }
+
+            // 로컬스토리지에 저장된 내용을 모두 제거(^^)
+            localStorage.clear();
         })
-
-        function saveTodo() {
-            localStorage.setItem('todos', JSON.stringify);
-        }
-
-
 
     </script>
 </body>
