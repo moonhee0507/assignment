@@ -8,6 +8,7 @@
     <style>
         body {
             background-color: rgba(0, 0, 0, 0.8);
+            font-family: 'Gothic A1', sans-serif;
         }
 
         .container {
@@ -16,6 +17,11 @@
             width: 500px;
             padding: 5px 0px 5px 20px;
             border-radius: 10px;
+        }
+
+        /* 줄바꿈 속성(글자단위) */
+        li {
+            word-break: break-all;
         }
     </style>
 </head>
@@ -26,6 +32,7 @@
         <button id="addToDo">추가</button>
         <button id="deleteAll">전체삭제</button>
         <h2>리스트업!</h2>
+        <p>리스트를 클릭하면 취소선이 생기고, 더블클릭하면 삭제됩니다.</p>
 
         <!-- inputField에 할일이 입력되고 + 버튼이 눌리면 할일이 나타나는 공간-->
         <div id="toDoList" class="to-dos"></div>
@@ -48,17 +55,21 @@
                 // 버튼에 클릭 이벤트가 발생하면, <li>태그 만들기
                 let list = document.createElement('li');
 
-                // 입력창에 내용이 없으면 alert를 띄우고
+                // 입력창에 내용이 없으면 alert 띄우기
                 if (!inputBox.value) {
-                    alert('내용을 입력해주세요😎');
+                    alert('내용을 입력해주세요!😎');
+                    // TODO: 리스트에 추가 안되게 하기
                 } else { 
                     // 날짜, 시간, 요일 삽입
                     const date = new Date();
                     const arrayDay = ['일','월','화','수','목','금','토'];
-                    const stringDate = (date.getMonth()+1) + '월 ' + date.getDate() + '일('+ arrayDay[date.getDay()] + ') ' + date.getHours() + '시 ' + date.getMinutes() + '분';
+                    const stringDate = (date.getMonth()+1) + '월 ' + date.getDate() + '일('+ arrayDay[date.getDay()] + ') ' + date.getHours() + '시 ' + date.getMinutes() + '분에 작성함';
 
                     // list의 innerText는 inputBox의 value
-                    list.innerText = inputBox.value + stringDate;
+                    list.innerText = inputBox.value + ' ' + stringDate;
+
+                    // TODO: stringDate 글씨크기 작게, 회색으로 하기
+                    // stringDate.style.fontSize = '10px';
 
                     // 리스트업의 자식으로 붙이기
                     toDoList.appendChild(list);
@@ -75,7 +86,6 @@
                 // list를 더블클릭하면 리스트업에서 지우기
                 list.addEventListener('dblclick', function() {
                     toDoList.removeChild(list);
-                    
                 })
 
                 // toDos에 리스트 push(toDoList.textContent로 하면 누적적으로 들어감)
@@ -86,18 +96,32 @@
                 localStorage.setItem('memo', toDos);
             })
 
-        // TODO: 새로고침 화면에서 저장된 내용 보여주기
-        const key = localStorage.getItem('memo')
-        // 첫번째 li에는 첫번째 toDos를, ...
+        // 새로고침 화면에서 저장된 내용 보여주기(유지하기)
+        // TODO: 취소선을 유지하려면 어떻게 해야할까?
+        const memo = localStorage.getItem('memo')
+        
+        // 로컬스토리지 memo라는 key를 빈배열에 push(split으로 문자 -> 배열)
+        toDos.push(...memo.split(','))
+        
         if (toDoList !== null) {
-
             for (let i = 0; i < toDos.length; i++) {
                 let list = document.createElement('li');
                 toDoList.appendChild(list);
 
-                toDoList.childNodes[i] = toDos[i];
+                // list를 클릭하면 줄 긋기(새로고침 후에도 적용되어야 하는 이벤트)
+                list.addEventListener('click', function() {
+                    list.style.textDecoration = "line-through";
+                })
+
+                // list를 더블클릭하면 리스트업에서 지우기(새로고침 후에도 적용되어야 하는 이벤트)
+                list.addEventListener('dblclick', function() {
+                    toDoList.removeChild(list);
+                })
+
+                // 첫번째 li에는 첫번째 toDos를, ...
+                toDoList.childNodes[i].innerText = toDos[i]
             }
-        }
+        } 
 
         // 전체삭제 버튼 이벤트
         deleteAll.addEventListener('click', function() {
@@ -113,7 +137,8 @@
             //     createdList[i].remove();
             // }
 
-            // 로컬스토리지에 저장된 내용을 모두 제거(^^)
+            // 로컬스토리지에 저장된 내용을 모두 제거
+            // TODO: 전체삭제 버튼 클릭 후 toDos배열에 안 남아 있게 하기
             localStorage.clear();
         })
 
